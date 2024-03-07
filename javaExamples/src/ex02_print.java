@@ -1,4 +1,4 @@
-public class ex02 {
+public class ex02_print {
     public static void main(String[] args) {
         // 한 줄 주석문
         /*
