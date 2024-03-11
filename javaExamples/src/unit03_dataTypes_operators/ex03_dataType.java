@@ -1,3 +1,5 @@
+package unit03_dataTypes_operators;
+
 public class ex03_dataType {
     public static void main(String[] args) {
         // 데이터 타입 (자료형)

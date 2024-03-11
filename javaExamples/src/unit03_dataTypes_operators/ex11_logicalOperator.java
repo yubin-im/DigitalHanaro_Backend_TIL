@@ -1,3 +1,5 @@
+package unit03_dataTypes_operators;
+
 public class ex11_logicalOperator {
     public static void main(String[] args) {
         // 논리 연산자

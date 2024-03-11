@@ -1,3 +1,5 @@
+package unit03_dataTypes_operators;
+
 import java.util.Arrays;
 
 public class ex06_StringMethod {

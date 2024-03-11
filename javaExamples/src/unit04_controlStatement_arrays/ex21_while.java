@@ -1,3 +1,5 @@
+package unit04_controlStatement_arrays;
+
 public class ex21_while {
     public static void main(String[] args) {
         // while 문

@@ -1,3 +1,5 @@
+package unit04_controlStatement_arrays;
+
 import java.util.Scanner;
 
 public class ex18_loopKeyword {

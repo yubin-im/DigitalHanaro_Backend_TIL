@@ -1,3 +1,5 @@
+package unit03_dataTypes_operators;
+
 public class ex09_arithmeticOperator {
     public static void main(String[] args) {
         // 산술 연산자: +, -, *, /, %, <<, >>, >>>
@@ -10,7 +12,7 @@ public class ex09_arithmeticOperator {
         System.out.println(i & j);  // 나눗셈의 몫
         System.out.println(i % j);  // 나눗셈의 나머지
 
-        
+
         // 연습문제
         // 나머지 연산자를 이용하여
         int k = 123;

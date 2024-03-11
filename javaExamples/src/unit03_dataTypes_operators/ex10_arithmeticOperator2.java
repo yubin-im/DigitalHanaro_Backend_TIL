@@ -1,3 +1,5 @@
+package unit03_dataTypes_operators;
+
 public class ex10_arithmeticOperator2 {
     public static void main(String[] args) {
         // 비트단위 이동 연산자: <<, >>, >>>

@@ -1,3 +1,5 @@
+package unit04_controlStatement_arrays;
+
 public class ex16_for {
     public static void main(String[] args) {
         // 반복문: for, while, do-while

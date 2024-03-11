@@ -1,6 +1,8 @@
+package unit04_controlStatement_arrays;
+
 import java.util.Random;
 
-public class ex22 {
+public class ex22_q {
     public static void main(String[] args) {
         // 연습 문제
         // 철수가 AI로봇과 가위바위보 게임을 한다.

@@ -1,5 +1,6 @@
+package unit04_controlStatement_arrays;
+
 import java.util.Random;
-import java.util.Scanner;
 
 public class ex15_switch {
     public static void main(String[] args) {

@@ -1,3 +1,5 @@
+package unit03_dataTypes_operators;
+
 public class ex12_ternaryOperator {
     public static void main(String[] args) {
         // 삼항 연산자: ? : 물음표 연산자

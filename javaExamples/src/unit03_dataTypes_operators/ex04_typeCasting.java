@@ -1,3 +1,5 @@
+package unit03_dataTypes_operators;
+
 public class ex04_typeCasting {
     public static void main(String[] args) {
         // 형 변환 Type casting
@@ -20,6 +22,6 @@ public class ex04_typeCasting {
         // 형변환 연산자 사용
         // 주의할 점: 표현 범위를 벗어나면 값 잘림 (쓰레기 값)
         // 작은 타입 = (작은타입)큰 타입;
-        int c = (int)20L;
+        int c = (int) 20L;
     }
 }

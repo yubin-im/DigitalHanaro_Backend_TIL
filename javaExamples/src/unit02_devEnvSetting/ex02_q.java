@@ -1,3 +1,5 @@
+package unit02_devEnvSetting;
+
 public class ex02_q {
     public static void main(String[] args) {
         // 연습문제 DM으로 스샷을 보내주세요

@@ -1,3 +1,5 @@
+package unit03_dataTypes_operators;
+
 public class ex07_operator {
     public static void main(String[] args) {
         // 연산자

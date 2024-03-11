@@ -1,3 +1,5 @@
+package unit04_controlStatement_arrays;
+
 public class ex17_debug {
     public static void main(String[] args) {
         // 런타임 디버깅 사용법

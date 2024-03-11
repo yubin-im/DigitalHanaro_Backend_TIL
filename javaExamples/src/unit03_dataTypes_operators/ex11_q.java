@@ -1,3 +1,5 @@
+package unit03_dataTypes_operators;
+
 public class ex11_q {
     public static void main(String[] args) {
         // 연습문제

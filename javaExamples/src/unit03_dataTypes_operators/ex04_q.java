@@ -1,3 +1,5 @@
+package unit03_dataTypes_operators;
+
 public class ex04_q {
     public static void main(String[] args) {
         // 연습문제 3 - DM으로 제출
