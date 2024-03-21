@@ -60,7 +60,7 @@ LIMIT 3;
 
 -- q04-10
 SELECT 직위,
-COUNT(이름) AS 직위별사원수,
-이름 AS 사원이름
+COUNT(직위) AS 직위별사원수,
+GROUP_CONCAT(이름) AS 사원이름목록
 FROM 사원
 GROUP BY 직위;
