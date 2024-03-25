@@ -1,1 +1,2 @@
 rootProject.name = 'Ex02SpringDI'
+// 오라클 DBMS 기본 포트도 8080이므로 둘 중 하나 변경
