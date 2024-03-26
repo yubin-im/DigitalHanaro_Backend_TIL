@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>계산기</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .btn-group {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .btn {
+            width: 30%;
+        }
+        div {
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<h2 class="text-center">계산기 프로그램</h2>
+
+<form action="calculate" method="post">
+    <div class="text-center">
+        <div>
+            숫자 1 <input type="number" name="number1" placeholder="첫 번째 숫자" required>
+        </div>
+        <div>
+            숫자 2 <input type="number" name="number2" placeholder="두 번째 숫자" required>
+        </div>
+        <div>
+            연산 결과 <input type="text" name="result" th:value="${result}" readonly>
+        </div>
+
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary" name="operator" value="add">덧셈</button>
+        </div>
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary" name="operator" value="subtract">뺄셈</button>
+        </div>
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary" name="operator" value="multiply">곱셈</button>
+        </div>
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary" name="operator" value="divide">나눗셈</button>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-danger" onclick="clearResult()">지우기</button>
+        </div>
+    </div>
+</form>
+
+<script>
+    function clearResult() {
+        document.querySelector('[name="number1"]').value = '';
+        document.querySelector('[name="number2"]').value = '';
+        document.querySelector('[name="result"]').value = '';
+    }
+</script>
+</body>
+</html>
