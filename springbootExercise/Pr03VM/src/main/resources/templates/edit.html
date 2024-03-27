@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>자판기 상품 수정</h2>
+
+<form action="/edit" method="post">
+    <label for="name">상품명:</label><br>
+    <input type="text" id="name" name="name" th:value="${product.name}" readonly><br>
+    <label for="price">가격:</label><br>
+    <input type="number" id="price" name="price" th:value="${product.price}"><br>
+    <label for="limit_date">유통기한:</label><br>
+    <input type="text" id="limit_date" name="limit_date" th:value="${product.limit_date}"><br><br>
+    <input type="submit" value="상품 수정 완료!">
+</form>
+
+<a href="/"><button>돌아가기</button></a>
+
+</body>
+</html>
