@@ -3,57 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <!-- 부트스트랩 CDN 링크 추가 -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* 가운데 정렬 스타일 */
+        .center {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<h2>★자판기 프로그램★</h2>
+<div class="container">
+    <h2 class="center">★자판기 프로그램★</h2>
 
-<div>
-    <p>▽자판기 상품 목록</p>
-    <p>한글</p>
-    <p>ENG</p>
+    <div class="row center">
+        <div class="col-sm-12">
+            <p>▽자판기 상품 목록 한글 ENG</p>
+        </div>
+    </div>
+
+    <div th:if="${productList.size() == 0}" class="row">
+        <div class="col-sm-12 center">
+            <p>상품 목록이 비어있습니다.</p>
+        </div>
+    </div>
+
+    <div th:if="${productList.size() > 0}" class="row">
+        <div class="col-sm-12">
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th>번호</th>
+                    <th>상품명</th>
+                    <th>가격</th>
+                    <th>유통기한</th>
+                    <th>수정</th>
+                    <th>삭제</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product, index: ${productList}">
+                    <td th:text="${index.index + 1}"></td>
+                    <td th:text="${product.name}"></td>
+                    <td th:text="${product.price}"></td>
+                    <td th:text="${product.limit_date}"></td>
+                    <td>
+                        <a th:href="@{/edit(name=${product.name})}">
+                            <button class="btn btn-primary">수정</button>
+                        </a>
+                    </td>
+                    <td>
+                        <a th:href="@{/delete(name=${product.name})}">
+                            <button class="btn btn-danger">삭제</button>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div th:text="|총 ${productList.size()} 개의 상품이 있습니다.|"></div>
+        </div>
+    </div>
+
+    <div class="row center">
+        <div class="col-sm-12">
+            <a href="/add"><button class="btn btn-danger">상품 추가하기!</button></a>
+        </div>
+    </div>
 </div>
-
-
-<div th:if="${productList.size() == 0}">
-    <h3>상품 목록이 비어있습니다.</h3>
-</div>
-
-<div th:if="${productList.size() > 0}">
-    <table border="1">
-        <thead>
-        <tr>
-            <th>번호</th>
-            <th>상품명</th>
-            <th>가격</th>
-            <th>유통기한</th>
-            <th>수정</th>
-            <th>삭제</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="product, index: ${productList}">
-            <td th:text="${index.index + 1}"></td>
-            <td th:text="${product.name}"></td>
-            <td th:text="${product.price}"></td>
-            <td th:text="${product.limit_date}"></td>
-            <td>
-                <a th:href="@{/edit(name=${product.name})}">
-                    <button class="btn btn-danger">수정</button>
-                </a>
-            </td>
-            <td>
-                <a th:href="@{/delete(name=${product.name})}">
-                    <button class="btn btn-danger">삭제</button>
-                </a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
-    <div th:text="|총 ${productList.size()} 개의 상품이 있습니다.|"></div>
-</div>
-
-<a href="/add"><button>상품 추가하기!</button></a>
-
 </body>
 </html>
