@@ -34,11 +34,11 @@
                     password: inputPW[0].value
                 })
             })
-                .then((response) => {
+                .then((response) => {  // HTTP 객체
                     console.log(response);
                     return response.json();
                 })
-                .then((json) => {
+                .then((json) => {  // JSON 객체
                     // { status: "ok", message: "로그인되었습니다." }
                     console.log(json);
                     document.getElementById("result_status").innerText = json.status;
