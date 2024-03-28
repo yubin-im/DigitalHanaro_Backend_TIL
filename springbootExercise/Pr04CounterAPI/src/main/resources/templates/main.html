@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>CounterAPI</title>
+</head>
+<body>
+<h2>카운트 : <span id="counterValue">0</span></h2>
+<button onclick="sendRequest('plus')">더하기</button>
+<button onclick="sendRequest('minus')">빼기</button>
+
+<script>
+    function sendRequest(action) {
+        fetch("/" + action, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({})
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("counterValue").innerText = data.count;
+            })
+            .catch(error => console.error("Error: ", error));
+    }
+</script>
+</body>
+</html>
