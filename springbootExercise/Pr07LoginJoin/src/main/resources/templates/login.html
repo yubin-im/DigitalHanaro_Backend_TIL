@@ -35,13 +35,13 @@
             <!-- 입력폼 -->
             <form
               name="formJoin"
-              action="http://localhost:8080/login"
+              action="/"
               method="post"
             >
               <div class="col-12 col-lg-6 order-2 order-lg-1">
                 <h1 class="my-5 text-center">Login</h1>
-                <div id="alert" class="alert alert-success" role="alert">
-                  로그인 성공!
+                <div th:text="${message}" id="alert" class="alert alert-success" role="alert">
+                  로그인 여부
                 </div>
                 <div class="mb-3 d-flex flex-row">
                   <div
@@ -98,7 +98,7 @@
 
     <script>
       function join_form() {
-        window.location.href = "/join-form";
+        window.location.href = "/join";
       }
     </script>
 
