@@ -36,6 +36,7 @@
             <!-- 입력폼 -->
             <form
               name="formJoin"
+              id="formJoin"
               action="/join"
               method="post"
             >
@@ -136,7 +137,7 @@
                     </button>
                   </div>
                   <div class="text-center my-5">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="button" class="btn btn-primary" onclick="checkAgreement()">
                       회원가입
                     </button>
                   </div>
@@ -169,5 +170,41 @@
       integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
       crossorigin="anonymous"
     ></script>
+  <script>
+    function checkAgreement() {
+      var agreementChecked = document.getElementById("exampleCheck1").checked;
+
+      if (!agreementChecked) {
+        alert("약관에 동의해주세요!");
+      } else {
+        document.getElementById("formJoin").submit();
+      }
+    }
+
+    function fetch_dupl() {
+      var inputName = document.getElementById("inputName").value;
+
+      fetch("/check_duplicate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          inputName: inputName
+        })
+      })
+              .then(response => response.json())
+              .then(data => {
+                if (data.duplicate) {
+                  document.getElementById("alert").style.display = "block";
+                } else {
+                  document.getElementById("alert").style.display = "none";
+                  alert("사용 가능한 아이디입니다.");
+                }
+              })
+              .catch(error => console.error("Error: ", error));
+    }
+
+  </script>
   </body>
 </html>
