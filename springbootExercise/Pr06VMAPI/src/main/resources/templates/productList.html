@@ -54,36 +54,32 @@
         <div class="list-container">
             <div class="list">
                 <!-- 상품 목록에 상품 존재 X -->
+                <div th:if="${productList.size() == 0}" class="row">
+                    <table class="table table-bordered border-danger">
+                        <tr class="text-center">
+                            <th scope="col">상품 목록이 비어있습니다.</th>
+                        </tr>
+                    </table>
+                </div>
 
                 <!-- 상품 목록에 상품 존재 O -->
-                <table class="table table-bordered border-danger">
+                <table th:if="${productList.size() > 0}" class="table table-bordered border-danger">
                     <tr class="text-center">
-                        <!-- { status.count } -->
                         <th scope="col" id="listNum" class="text-danger">번호</th>
-                        <!-- { product.name } -->
                         <th scope="col" id="listName">상품명</th>
-                        <!-- { product.price } -->
                         <th scope="col" id="listPrice">가격</th>
-                        <!-- { product.limit_date } -->
                         <th scope="col" id="listDate">유통기한</th>
-                        <!--  -->
                         <th scope="col" id="editTitle">수정</th>
                         <th scope="col" id="removeTitle">삭제</th>
                     </tr>
-                    <tr class="text-center align-middle">
-                        <th scope="row"><span>1</span></th>
-                        <td class="text-center align-middle">
-                            <span>베이컨버거</span>
-                        </td>
-                        <td class="text-center align-middle">
-                            <span>10000</span>
-                        </td>
-                        <td class="text-center align-middle">
-                            <span>2024-03-06</span>
-                        </td>
+                    <tr th:each="product, index: ${productList}" class="text-center align-middle">
+                        <td th:text="${index.index + 1}" class="text-center align-middle"></td>
+                        <td th:text="${product.name}" class="text-center align-middle"></td>
+                        <td th:text="${product.price}" class="text-center align-middle"></td>
+                        <td th:text="${product.limit_date}" class="text-center align-middle"></td>
                         <td class="text-center align-middle">
                             <a
-                                    href="/editProductForm?index=0"
+                                    th:href="@{/edit(name=${product.name})}"
                                     class="btn btn-primary fw-bold editBtn"
                                     role="button"
                             >수정</a
@@ -91,7 +87,7 @@
                         </td>
                         <td class="text-center align-middle">
                             <a
-                                    href="/deleteProduct?index=0"
+                                    th:href="@{/delete(name=${product.name})}"
                                     class="btn btn-danger fw-bold removeBtn"
                                     role="button"
                                     onclick="return confirmAndNotify(this)"
@@ -108,14 +104,14 @@
                 class="listSizeBox bg-white rounded-start text-danger fw-bold"
         >
             <span id="total">▲ 총</span>
-            <span class="text-dark">1</span>
+            <span th:text="${productList.size()}" class="text-dark"></span>
             <span id="totalNum">개의 상품이 있습니다.</span>
         </div>
         <!-- 상품 추가하기 버튼 -->
         <div style="clear: both" class="d-flex justify-content-center">
             <a
                     id="addProductButton"
-                    href="/addProductForm"
+                    href="/add"
                     class="btn btn-danger fw-bold w-25"
                     role="button"
             >상품 추가하기 !</a
