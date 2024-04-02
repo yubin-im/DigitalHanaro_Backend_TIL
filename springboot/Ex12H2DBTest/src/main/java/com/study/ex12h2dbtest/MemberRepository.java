@@ -59,5 +59,27 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     @Transactional
     @Query(value = "UPDATE member SET user_id = :userid where id = :id",
             nativeQuery = true)
-    int updateById_nativeQuery(Long id);
+    int updateById_nativeQuery(Long id, String userid);
+
+    // 연습 문제
+    // 1. member 테이블 안에 암호가 "1234"인 회원이 있는지 테스트 하시오.
+    List<MemberEntity> findByUserPwIsLike(String userPw);
+
+    // 2. 23년도 3월에 가입한 회원의 수가 1인지 테스트하시오.
+    @Query(value = "SELECT * FROM member WHERE MONTH(joindate) = :month", nativeQuery = true)
+    List<MemberEntity> findByJoindate_DayOfMonth(int month);
+
+    // 3. "lee"라는 아이디로 회원가입하고자 할때, 아이디 중복인지 테스트하시오.
+    List<MemberEntity> findByUserIdEquals(String userid);
+
+    // 4. "tom"이라는 아이디의 회원정보를 수정하고, 잘 수정되었는지 테스트하시오.
+    //    톰아저씨 -> 마이클, 암호 -> 3456
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE member SET user_name = :username, user_pw = :userpw" +
+            " where user_id = :userid",
+            nativeQuery = true)
+    int updateByUserId_nativeQuery(String userid, String username, String userpw);
+
+
 }

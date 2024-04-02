@@ -16,9 +16,9 @@ public class MainController {
     @GetMapping("/")
     public String main(Model model) {
         // 테이블 값(row) 추가 (save와 new 사용)
-        memberRepository.save(new MemberEntity(Long.valueOf(1), "hong", "1234", "홍길동", "ROLE_USER", LocalDate.now()));
-        memberRepository.save(new MemberEntity(Long.valueOf(2), "tom", "1234", "톰아저씨", "ROLE_USER", LocalDate.now()));
-        memberRepository.save(new MemberEntity(Long.valueOf(3), "admin", "1234", "관리자", "ROLE_ADMIN", LocalDate.now()));
+        memberRepository.save(new MemberEntity(Long.valueOf(1), "hong", "1234", "홍길동", "ROLE_USER", LocalDate.parse("2023-01-01")));
+        memberRepository.save(new MemberEntity(Long.valueOf(2), "tom", "1234", "톰아저씨", "ROLE_USER", LocalDate.parse("2023-02-01")));
+        memberRepository.save(new MemberEntity(Long.valueOf(3), "admin", "1234", "관리자", "ROLE_ADMIN", LocalDate.parse("2023-03-01")));
 
         //테이블의 전체 값 리스트에 추가 (findAll 사용)
         List<MemberEntity> list = memberRepository.findAll();

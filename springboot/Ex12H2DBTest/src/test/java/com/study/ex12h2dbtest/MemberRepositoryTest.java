@@ -32,9 +32,9 @@ public class MemberRepositoryTest extends Ex12H2DbTestApplicationTests{
     @Test  // 테스트할 메소드에 사용
     @DisplayName("save 테스트")  // 콘솔에 출력되는 메소드 이름
     public void save() {
-        memberRepository.save(new MemberEntity(Long.valueOf(1), "hong", "1234", "홍길동", "ROLE_USER", LocalDate.now()));
-        memberRepository.save(new MemberEntity(Long.valueOf(2), "tom", "1234", "톰아저씨", "ROLE_USER", LocalDate.now()));
-        memberRepository.save(new MemberEntity(Long.valueOf(3), "admin", "1234", "관리자", "ROLE_ADMIN", LocalDate.now()));
+        memberRepository.save(new MemberEntity(Long.valueOf(1), "hong", "1234", "홍길동", "ROLE_USER", LocalDate.parse("2023-01-01")));
+        memberRepository.save(new MemberEntity(Long.valueOf(2), "tom", "1234", "톰아저씨", "ROLE_USER", LocalDate.parse("2023-02-01")));
+        memberRepository.save(new MemberEntity(Long.valueOf(3), "admin", "1234", "관리자", "ROLE_ADMIN", LocalDate.parse("2023-03-01")));
 
         List<MemberEntity> list = memberRepository.findAll();
 
@@ -109,5 +109,14 @@ public class MemberRepositoryTest extends Ex12H2DbTestApplicationTests{
         assertEquals("관리자", list.get(0).getUserName());
     }
 
+    @Test
+    @DisplayName("update native SQL 테스트")
+    public void update_nativeSql(){
+        int result = memberRepository.updateById_nativeQuery(1L, "hong3");
+        assertEquals(1, result);
 
+        Optional<MemberEntity> member =
+                memberRepository.findById(1L);
+        assertEquals("hong3", member.get().getUserId() );
+    }
 }
