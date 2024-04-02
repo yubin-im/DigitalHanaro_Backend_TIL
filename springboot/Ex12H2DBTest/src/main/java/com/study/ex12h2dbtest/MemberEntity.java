@@ -40,5 +40,13 @@ public class MemberEntity {
     @Column(name="joindate")
     @DateTimeFormat(pattern = "yyyy-mm-dd")
     private LocalDate joindate;
+
+    public void update(String userId, String userPw, String userName,
+                       String userRole){
+        this.userId = userId;
+        this.userPw = userPw;
+        this.userName = userName;
+        this.userRole = userRole;
+    }
 }
 
