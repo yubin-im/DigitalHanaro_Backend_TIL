@@ -1,51 +1,69 @@
 package com.study.pr06vmapi;
 
-import lombok.Getter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.*;
 
 @RestController
 public class ApiController {
-    private Product product;
-    @Getter
     private List<Product> productList = new ArrayList<>();
 
-    @PostMapping("/add")
-    public List<Product> add(@RequestBody Map<String, Object> requestBody) {
-        String name = requestBody.get("name").toString();
-        int price = Integer.parseInt(requestBody.get("price").toString());
-        String limit_date = requestBody.get("limit_date").toString();
+    // 상품 전체 조회
+    @GetMapping("/")
+    public List<Product> main() {
+        return productList;
+    }
 
-        Product product = new Product();
-        product.setName(name);
-        product.setPrice(price);
-        product.setLimit_date(limit_date);
+    // 상품 추가
+    @PostMapping("/add")
+    public List<Product> add(@RequestBody AddReqDTO addReqDTO) {
+        Product product = Product.builder()
+                .name(addReqDTO.getName())
+                .price(addReqDTO.getPrice())
+                .limit_date(addReqDTO.getLimit_date())
+                .build();
         productList.add(product);
 
         return productList;
     }
 
-//    @PostMapping("/edit")
-//    public ResponseEntity<Product> edit(@RequestBody Product product) {
-//        for(Product product: productList) {
-//            if(product.getName().equals(name)) {
-//                product.setPrice(price);
-//                product.setLimit_date(limit_date);
-//                break;
-//            }
-//        }
-//        model.addAttribute("productList", productList);
-//
-//        return "redirect:/";
-//    }
+    // 상품 수정
+    @PostMapping("/edit")
+    public List<Product> edit(@RequestBody ProductDTO productDTO) {
+        String name = productDTO.getName();
+        int price = productDTO.getPrice();
+        String limit_date = productDTO.getLimit_date();
 
-    @GetMapping("/delete")
-    public String delete(@RequestParam String name, Model model) {
+        for(Product product: productList) {
+            if(product.getName().equals(name)) {
+                product.setPrice(price);
+                product.setLimit_date(limit_date);
+                break;
+            }
+        }
+        return productList;
+    }
+
+    // 수정할 상품 불러오기
+    @GetMapping("/edit")
+    public ProductDTO viewEditForm(@RequestBody Map<String, String> nameMap) {
+        String name = nameMap.get("name");
+        ProductDTO productDTO = null;
+
+        for(Product product: productList) {
+            if(product.getName().equals(name)) {
+                productDTO = new ProductDTO(product.getName(), product.getPrice(), product.getLimit_date());
+                break;
+            }
+        }
+
+        return productDTO;
+    }
+
+    // 상품 삭제
+    @DeleteMapping("/delete")
+    public List<Product> delete(@RequestBody Map<String, String> nameMap) {
+        String name = nameMap.get("name");
+
         Iterator<Product> iterator = productList.iterator();
         while (iterator.hasNext()) {
             Product product = iterator.next();
@@ -54,8 +72,8 @@ public class ApiController {
                 break;
             }
         }
-        model.addAttribute("productList", productList);
-        return "redirect:/";
+
+        return productList;
     }
 }
 
