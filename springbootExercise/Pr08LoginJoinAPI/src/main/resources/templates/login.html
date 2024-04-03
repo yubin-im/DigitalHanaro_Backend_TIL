@@ -34,12 +34,10 @@
                 <form
                         name="formJoin"
                         id="formJoin"
-                        action="/"
-                        method="post"
                 >
                     <div class="col-12 col-lg-6 order-2 order-lg-1">
                         <h1 class="my-5 text-center">Login</h1>
-                        <div th:text="${message}" id="alert" class="alert alert-success" role="alert">
+                        <div id="alert" class="alert alert-success" role="alert">
                             로그인 여부
                         </div>
                         <div class="mb-3 d-flex flex-row">
@@ -101,13 +99,36 @@
     }
 
     function checkInput() {
-        var inputName = document.getElementById("inputName").value;
+        const inputName = document.getElementById("inputName").value;
 
         if (inputName.trim() === "") {
             alert("아이디를 입력하세요!");
         } else {
-            document.getElementById("formJoin").submit();
+            login();
         }
+    }
+
+    const login = () => {
+        const inputName = document.getElementById("inputName").value;
+        const inputPw = document.getElementById("inputPw").value;
+
+        fetch("/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                inputName: inputName,
+                inputPw: inputPw
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("alert").innerText = data.message;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
 </script>
 <script

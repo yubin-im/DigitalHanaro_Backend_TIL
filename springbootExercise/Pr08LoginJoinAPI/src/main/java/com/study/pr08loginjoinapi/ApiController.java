@@ -1,7 +1,5 @@
 package com.study.pr08loginjoinapi;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -10,32 +8,33 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 public class ApiController {
-
     private List<Member> memberList = new ArrayList<>();
 
     // 로그인
     @PostMapping("/")
-    public String login(@RequestParam("inputName") String inputName,
-                        @RequestParam("inputPw") String inputPw,
-                        Model model) {
+    public Map<String, String> login(@RequestBody LoginReqDTO loginReqDTO) {
         String message = "로그인 실패!";
+        String inputName = loginReqDTO.getInputName();
+        String inputPw = loginReqDTO.getInputPw();
 
         for(Member member: memberList) {
-            if(member.getUsername().equals(inputName) && member.getPassword().equals(inputPw)) {
+            if(member.getUsername().equals(inputName) &&
+                    member.getPassword().equals(inputPw)) {
                 message = "로그인 성공!";
                 break;
             }
         }
 
-        model.addAttribute("message", message);
-        return "login";
+        Map<String, String> loginResMap = new HashMap<>();
+        loginResMap.put("message", message);
+
+        return loginResMap;
     }
 
     // 회원가입
     @PostMapping("/join")
-    @ResponseBody
     public List<Member> join(@RequestBody JoinReqDTO joinReqDTO) {
         Member member = Member.builder()
                 .username(joinReqDTO.getInputName())
@@ -45,11 +44,11 @@ public class ApiController {
                 .build();
 
         memberList.add(member);
+        System.out.println("회원 리스트: " + memberList);
         return memberList;
     }
 
     @PostMapping("/check_duplicate")
-    @ResponseBody
     public Map<String, Boolean> checkDuplicate(@RequestBody Map<String, String> requestBody) {
         String inputName = requestBody.get("inputName");
         boolean duplicate = false;
@@ -63,6 +62,7 @@ public class ApiController {
 
         Map<String, Boolean> response = new HashMap<>();
         response.put("duplicate", duplicate);
+
         return response;
     }
 }
