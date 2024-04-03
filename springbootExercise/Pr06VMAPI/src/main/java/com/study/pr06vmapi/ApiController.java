@@ -8,7 +8,7 @@ public class ApiController {
     private List<Product> productList = new ArrayList<>();
 
     // 상품 전체 조회
-    @GetMapping("/")
+    @PostMapping("/")
     public List<Product> main() {
         return productList;
     }
