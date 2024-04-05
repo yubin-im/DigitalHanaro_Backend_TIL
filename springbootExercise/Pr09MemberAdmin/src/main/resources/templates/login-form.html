@@ -76,7 +76,7 @@
 
                         <div class="mb-3 d-flex flex-row justify-content-center gap-3">
                             <div class="text-center my-5">
-                                <button type="button" class="btn btn-primary" onclick="checkInput()">
+                                <button type="button" class="btn btn-primary" onclick="login()">
                                     로그인
                                 </button>
                             </div>
@@ -98,18 +98,36 @@
 </div>
 
 <script>
-    function join_form() {
+    const join_form = () => {
         window.location.href = "/join";
     }
 
-    function checkInput() {
-        var inputName = document.getElementById("inputName").value;
+    const checkInput = () => {
+        const inputName = document.getElementById("inputName").value;
+        const inputPw = document.getElementById("inputPw").value;
 
         if (inputName.trim() === "") {
             alert("아이디를 입력하세요!");
+        }
+        if (inputPw.trim() === "") {
+            alert("비밀번호를 입력하세요!");
         } else {
             document.getElementById("formJoin").submit();
         }
+    }
+
+    const checkAdmin = () => {
+        const inputName = document.getElementById("inputName").value;
+        const inputPw = document.getElementById("inputPw").value;
+
+        if (inputName === "admin" && inputPw === "1234") {
+            window.location.href = "/admin";
+        }
+    }
+
+    const login = () => {
+        checkInput();
+        checkAdmin();
     }
 </script>
 

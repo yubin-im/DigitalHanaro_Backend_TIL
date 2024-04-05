@@ -41,12 +41,12 @@
                     <th class="text-center">수정</th>
                     <th class="text-center">삭제</th>
                 </tr>
-                <tr>
-                    <td>1</td>
-                    <td>admin</td>
-                    <td>1234</td>
-                    <td>admin@gmail.com</td>
-                    <td>2024-03-29</td>
+                <tr th:each="member, status : ${memberList}" align="center">
+                    <td><span th:text="${status.count}"></span></td>
+                    <td><span th:text="${member.username}"></span></td></td>
+                    <td><span th:text="${member.password}"></span></td></td>
+                    <td><span th:text="${member.email}"></span></td></td>
+                    <td><span th:text="${member.joindate}"></span></td></td>
                     <td class="text-center">
                         <a
                                 href="/update-form?index=0"
@@ -58,29 +58,6 @@
                     <td class="text-center">
                         <a
                                 href="/delete?index=0"
-                                class="btn btn-danger"
-                                role="button"
-                        >삭제</a
-                        >
-                    </td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>hong</td>
-                    <td>1234</td>
-                    <td>hong@gmail.com</td>
-                    <td>2024-03-29</td>
-                    <td class="text-center">
-                        <a
-                                href="/update-form?index=1"
-                                class="btn btn-danger"
-                                role="button"
-                        >수정</a
-                        >
-                    </td>
-                    <td class="text-center">
-                        <a
-                                href="/delete?index=1"
                                 class="btn btn-danger"
                                 role="button"
                         >삭제</a

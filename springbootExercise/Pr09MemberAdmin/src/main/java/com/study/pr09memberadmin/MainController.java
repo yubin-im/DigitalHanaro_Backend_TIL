@@ -15,14 +15,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MainController {
     final private Member member;
-
     private List<Member> memberList = new ArrayList<>();
-
-    // 메인 출력
-    @GetMapping("/")
-    public String main() {
-        return "login-form";
-    }
 
     // 로그인
     @PostMapping("/")
@@ -42,25 +35,20 @@ public class MainController {
         return "login-form";
     }
 
-    // 회원가입 폼 출력
-    @GetMapping("/join")
-    public String viewJoin() {
-        return "join-form";
-    }
-
     // 회원가입
     @PostMapping("/join")
     public String join(@RequestParam("inputName") String inputName,
                        @RequestParam("inputEmail") String inputEmail,
                        @RequestParam("inputPw") String inputPw,
                        Model model) {
-        Member member = new Member();
-        member.setUsername(inputName);
-        member.setEmail(inputEmail);
-        member.setPassword(inputPw);
-        member.setJoindate(LocalDate.now());
-
+        Member member = Member.builder()
+                .username(inputName)
+                .email(inputEmail)
+                .password(inputPw)
+                .joindate(LocalDate.now())
+                .build();
         memberList.add(member);
+
         model.addAttribute("memberList", memberList);
         System.out.println("가입한 회원 정보: " + memberList);
         return "redirect:/";
@@ -82,6 +70,13 @@ public class MainController {
         Map<String, Boolean> response = new HashMap<>();
         response.put("duplicate", duplicate);
         return response;
+    }
+
+    // 관리자페이지 - 전체 회원목록 출력
+    @GetMapping("/admin")
+    public String viewAdmin(Model model) {
+        model.addAttribute("memberList", memberList);
+        return "admin-form";
     }
 }
 
