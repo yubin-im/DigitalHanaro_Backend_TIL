@@ -58,7 +58,7 @@
                                     class="form-control"
                                     id="inputName"
                                     name="inputName"
-                                    value="admin"
+                                    th:value="${member.username}"
                                     placeholder="Your Name"
                             />
                         </div>
@@ -74,7 +74,7 @@
                                     class="form-control"
                                     id="inputPw"
                                     name="inputPw"
-                                    value="1234"
+                                    th:value="${member.password}"
                                     placeholder="Your Password"
                             />
                         </div>
@@ -90,7 +90,7 @@
                                     class="form-control"
                                     id="inputEmail"
                                     name="inputEmail"
-                                    value="admin@gmail.com"
+                                    th:value="${member.email}"
                                     placeholder="Your Email"
                             />
                         </div>
@@ -106,15 +106,16 @@
                                     class="form-control"
                                     id="inputJoindate"
                                     name="inputJoindate"
-                                    value="2024-03-29"
+                                    th:value="${member.email}"
                                     placeholder="Join Date"
                             />
                         </div>
 
                         <input
+                                id="memberIndex"
                                 type="hidden"
                                 name="index"
-                                value="0"
+                                th:value="${index}"
                         />
 
                         <div class="text-center my-5">

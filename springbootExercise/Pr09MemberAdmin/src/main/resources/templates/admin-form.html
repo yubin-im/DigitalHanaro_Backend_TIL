@@ -49,15 +49,16 @@
                     <td><span th:text="${member.joindate}"></span></td></td>
                     <td class="text-center">
                         <a
-                                href="/update-form?index=0"
+                                th:href="@{/update-form(index=${status.count})}"
                                 class="btn btn-danger"
                                 role="button"
+                                onclick="return onEdit(this)"
                         >수정</a
                         >
                     </td>
                     <td class="text-center">
                         <a
-                                href="/delete?index=0"
+                                th:href="@{/delete(index=${status.count})}"
                                 class="btn btn-danger"
                                 role="button"
                         >삭제</a
@@ -83,5 +84,12 @@
         </div>
     </div>
 </div>
+<script>
+    // member 수정 페이지 요청
+    const onEdit = (button) => {
+        const url = button.getAttribute("href");
+        window.location.href = url;
+    }
+</script>
 </body>
 </html>

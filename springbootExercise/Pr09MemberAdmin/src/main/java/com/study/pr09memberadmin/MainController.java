@@ -78,5 +78,14 @@ public class MainController {
         model.addAttribute("memberList", memberList);
         return "admin-form";
     }
+
+    @GetMapping("/update-form")
+    public String viewUpdateForm(@RequestParam int index, Model model) {
+        model.addAttribute("index", index);
+
+        Member member = memberList.get(index-1);
+        model.addAttribute("member", member);
+        return "update-form";
+    }
 }
 

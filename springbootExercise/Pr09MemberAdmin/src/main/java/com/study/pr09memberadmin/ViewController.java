@@ -21,8 +21,4 @@ public class ViewController {
         return "join-form";
     }
 
-    @GetMapping("update-form")
-    public String viewUpdateForm() {
-        return "update-form";
-    }
 }
