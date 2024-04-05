@@ -1,5 +1,7 @@
-package com.study.pr10memberadminapi;
+package com.study.pr10memberadminapi.controller;
 
+import com.study.pr10memberadminapi.entity.Member;
+import com.study.pr10memberadminapi.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
-public class ViewController {
+public class MemberViewController {
     final private Member member;
     final MemberRepository repo;
 

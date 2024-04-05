@@ -1,4 +1,4 @@
-package com.study.pr10memberadminapi;
+package com.study.pr10memberadminapi.dto;
 
 import lombok.Data;
 

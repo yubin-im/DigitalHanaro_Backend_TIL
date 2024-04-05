@@ -1,4 +1,4 @@
-package com.study.pr10memberadminapi;
+package com.study.pr10memberadminapi.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

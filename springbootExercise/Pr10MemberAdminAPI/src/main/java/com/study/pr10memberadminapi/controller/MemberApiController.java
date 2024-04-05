@@ -1,5 +1,10 @@
-package com.study.pr10memberadminapi;
+package com.study.pr10memberadminapi.controller;
 
+import com.study.pr10memberadminapi.dto.JoinReqDTO;
+import com.study.pr10memberadminapi.dto.LoginReqDTO;
+import com.study.pr10memberadminapi.dto.UpdateReqDTO;
+import com.study.pr10memberadminapi.entity.Member;
+import com.study.pr10memberadminapi.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,11 +15,11 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-public class ApiController {
+public class MemberApiController {
     final private Member member;
     final MemberRepository repo;
 
-    // 로그인
+    // 로그인 기능
     @PostMapping("/")
     public Map<String, String> login(@RequestBody LoginReqDTO loginReqDTO) {
         String message = "로그인 실패!";
@@ -35,7 +40,7 @@ public class ApiController {
         return loginResMap;
     }
 
-    // 회원가입
+    // 회원가입 기능
     @PostMapping("/join")
     public List<Member> join(@RequestBody JoinReqDTO joinReqDTO) {
         Member member = Member.builder()
@@ -50,6 +55,7 @@ public class ApiController {
         return repo.memberList;
     }
 
+    // 아이디 중복 확인
     @PostMapping("/check_duplicate")
     public Map<String, Boolean> checkDuplicate(@RequestBody Map<String, String> requestBody) {
         String inputName = requestBody.get("inputName");
@@ -69,28 +75,25 @@ public class ApiController {
 
     // 관리자 페이지 - 회원목록 상세 수정
     @PostMapping("/update-action")
-    public String updateMember(@RequestParam int index,
-                               @RequestParam String inputName,
-                               @RequestParam String inputPw,
-                               @RequestParam String inputEmail,
-                               @RequestParam LocalDate inputJoindate) {
-        Member member = repo.memberList.get(index-1);
-        member.setUsername(inputName);
-        member.setPassword(inputPw);
-        member.setEmail(inputEmail);
-        member.setJoindate(inputJoindate);
+    public List<Member> updateMember(@RequestBody UpdateReqDTO updateReqDTO) {
+        Member member = repo.memberList.get(updateReqDTO.getIndex()-1);
+        member.setUsername(updateReqDTO.getInputName());
+        member.setPassword(updateReqDTO.getInputPw());
+        member.setEmail(updateReqDTO.getInputEmail());
+        member.setJoindate(updateReqDTO.getInputJoindate());
 
-        repo.memberList.set(index-1, member);
+        repo.memberList.set(updateReqDTO.getIndex()-1, member);
         System.out.println("수정된 회원 정보: " + repo.memberList);
-        return "<script>alert('회원 정보가 수정되었습니다.'); location.href='/admin';</script>";
+
+        return repo.memberList;
     }
 
     // 관리자 페이지 - 회원목록 삭제
     // localhost:8080/deleteProduct?index=1
     @GetMapping("/deleteProduct")
-    public String deleteProduct(@RequestParam int index){
+    public List<Member> deleteProduct(@RequestParam int index){
         repo.memberList.remove(index-1);
-        return "<script>alert('회원이 삭제되었습니다.'); location.href='/admin';</script>";
+        return repo.memberList;
     }
 }
 

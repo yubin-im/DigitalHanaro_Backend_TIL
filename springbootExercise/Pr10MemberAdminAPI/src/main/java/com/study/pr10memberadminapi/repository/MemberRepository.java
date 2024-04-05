@@ -1,5 +1,6 @@
-package com.study.pr10memberadminapi;
+package com.study.pr10memberadminapi.repository;
 
+import com.study.pr10memberadminapi.entity.Member;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
