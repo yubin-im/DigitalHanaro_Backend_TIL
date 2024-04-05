@@ -1,15 +1,14 @@
 package com.study.pr10memberadminapi;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class ApiController {
     final private Member member;
@@ -17,43 +16,41 @@ public class ApiController {
 
     // 로그인
     @PostMapping("/")
-    public String login(@RequestParam("inputName") String inputName,
-                        @RequestParam("inputPw") String inputPw,
-                        Model model) {
+    public Map<String, String> login(@RequestBody LoginReqDTO loginReqDTO) {
         String message = "로그인 실패!";
+        String inputName = loginReqDTO.getInputName();
+        String inputPw = loginReqDTO.getInputPw();
 
         for(Member member: repo.memberList) {
-            if(member.getUsername().equals(inputName) && member.getPassword().equals(inputPw)) {
+            if(member.getUsername().equals(inputName) &&
+                    member.getPassword().equals(inputPw)) {
                 message = "로그인 성공!";
                 break;
             }
         }
 
-        model.addAttribute("message", message);
-        return "login-form";
+        Map<String, String> loginResMap = new HashMap<>();
+        loginResMap.put("message", message);
+
+        return loginResMap;
     }
 
     // 회원가입
     @PostMapping("/join")
-    public String join(@RequestParam("inputName") String inputName,
-                       @RequestParam("inputEmail") String inputEmail,
-                       @RequestParam("inputPw") String inputPw,
-                       Model model) {
+    public List<Member> join(@RequestBody JoinReqDTO joinReqDTO) {
         Member member = Member.builder()
-                .username(inputName)
-                .email(inputEmail)
-                .password(inputPw)
+                .username(joinReqDTO.getInputName())
+                .email(joinReqDTO.getInputEmail())
+                .password(joinReqDTO.getInputPw())
                 .joindate(LocalDate.now())
                 .build();
-        repo.memberList.add(member);
 
-        model.addAttribute("memberList", repo.memberList);
-        System.out.println("가입한 회원 정보: " + repo.memberList);
-        return "redirect:/";
+        repo.memberList.add(member);
+        System.out.println("회원 리스트: " + repo.memberList);
+        return repo.memberList;
     }
 
     @PostMapping("/check_duplicate")
-    @ResponseBody
     public Map<String, Boolean> checkDuplicate(@RequestBody Map<String, String> requestBody) {
         String inputName = requestBody.get("inputName");
         boolean duplicate = false;
@@ -72,7 +69,6 @@ public class ApiController {
 
     // 관리자 페이지 - 회원목록 상세 수정
     @PostMapping("/update-action")
-    @ResponseBody
     public String updateMember(@RequestParam int index,
                                @RequestParam String inputName,
                                @RequestParam String inputPw,
@@ -92,7 +88,6 @@ public class ApiController {
     // 관리자 페이지 - 회원목록 삭제
     // localhost:8080/deleteProduct?index=1
     @GetMapping("/deleteProduct")
-    @ResponseBody
     public String deleteProduct(@RequestParam int index){
         repo.memberList.remove(index-1);
         return "<script>alert('회원이 삭제되었습니다.'); location.href='/admin';</script>";
