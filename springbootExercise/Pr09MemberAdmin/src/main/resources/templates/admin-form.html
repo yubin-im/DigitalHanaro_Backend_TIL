@@ -58,9 +58,10 @@
                     </td>
                     <td class="text-center">
                         <a
-                                th:href="@{/delete(index=${status.count})}"
+                                th:href="@{/deleteProduct(index=${status.count})}"
                                 class="btn btn-danger"
                                 role="button"
+                                onclick="return confirmAndDelete(this)"
                         >삭제</a
                         >
                     </td>
@@ -85,10 +86,20 @@
     </div>
 </div>
 <script>
-    // member 수정 페이지 요청
+    // 회원목록 상세 출력
+    // localhost:8080/update-form?index=1
     const onEdit = (button) => {
-        const url = button.getAttribute("href");
-        window.location.href = url;
+        window.location.href = button.getAttribute("href");
+    }
+
+    // 회원 목록 삭제
+    // localhost:8080/deleteProduct?index=1
+    const confirmAndDelete = (link) => {
+        const confirmation = confirm("정말로 삭제하시겠습니까?");
+        if (confirmation) {
+            window.location.href = link.getAttribute("href");
+        }
+        return false;
     }
 </script>
 </body>

@@ -79,6 +79,8 @@ public class MainController {
         return "admin-form";
     }
 
+    // 관리자 페이지 - 회원목록 상세 출력
+    // localhost:8080/update-form?index=1
     @GetMapping("/update-form")
     public String viewUpdateForm(@RequestParam int index, Model model) {
         model.addAttribute("index", index);
@@ -86,6 +88,34 @@ public class MainController {
         Member member = memberList.get(index-1);
         model.addAttribute("member", member);
         return "update-form";
+    }
+
+    // 관리자 페이지 - 회원목록 상세 수정
+    @PostMapping("/update-action")
+    @ResponseBody
+    public String updateMember(@RequestParam int index,
+                               @RequestParam String inputName,
+                               @RequestParam String inputPw,
+                               @RequestParam String inputEmail,
+                               @RequestParam LocalDate inputJoindate) {
+        Member member = memberList.get(index-1);
+        member.setUsername(inputName);
+        member.setPassword(inputPw);
+        member.setEmail(inputEmail);
+        member.setJoindate(inputJoindate);
+
+        memberList.set(index-1, member);
+        System.out.println("수정된 회원 정보: " + memberList);
+        return "<script>alert('회원 정보가 수정되었습니다.'); location.href='/admin';</script>";
+    }
+
+    // 관리자 페이지 - 회원목록 삭제
+    // localhost:8080/deleteProduct?index=1
+    @GetMapping("/deleteProduct")
+    @ResponseBody
+    public String deleteProduct(@RequestParam int index){
+        memberList.remove(index-1);
+        return "<script>alert('회원이 삭제되었습니다.'); location.href='/admin';</script>";
     }
 }
 

@@ -53,6 +53,7 @@
                             >
                                 <i class="fa-solid fa-user fa-xl"></i>
                             </div>
+                            <input type="hidden" name="index" th:value="${index}" />
                             <input
                                     type="text"
                                     class="form-control"
@@ -106,18 +107,10 @@
                                     class="form-control"
                                     id="inputJoindate"
                                     name="inputJoindate"
-                                    th:value="${member.email}"
+                                    th:value="${member.joindate}"
                                     placeholder="Join Date"
                             />
                         </div>
-
-                        <input
-                                id="memberIndex"
-                                type="hidden"
-                                name="index"
-                                th:value="${index}"
-                        />
-
                         <div class="text-center my-5">
                             <button
                                     type="submit"
