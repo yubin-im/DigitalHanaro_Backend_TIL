@@ -9,5 +9,11 @@
 <body>
 <h2>JSP 페이지에 오신 것을 환영합니다!</h2>
 
+<br>
+<img src="/img/image.png" width="200px">
+
+<br>
+<a href="/ex/02">ex02.jsp</a>
+
 </body>
 </html>
