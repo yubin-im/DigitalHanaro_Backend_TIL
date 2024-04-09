@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- SQL 끝에 세미콜론(;)을 넣지 마세요! -->
+<!-- id는 함수이름 -->
+<mapper namespace="com.study.ex15readdbcrud.dao.IMemberDao">
+    <select id="list" resultType="com.study.ex15readdbcrud.dto.MemberDTO">
+        SELECT * FROM member ORDER BY join_date DESC
+    </select>
+
+
+
+</mapper>
