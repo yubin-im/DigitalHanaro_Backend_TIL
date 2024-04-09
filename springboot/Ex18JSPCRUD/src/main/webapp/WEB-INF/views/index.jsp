@@ -1,48 +1,58 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<%@ page trimDirectiveWhitespaces="true" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원목록조회</title>
+    <title>회원목록 조회</title>
 </head>
 <body>
-    <h2 th:text="|회원목록 (총 ${list.size()}명)|">회원 목록</h2>
-    <table border="1">
-        <thead>
-            <tr align="center">
-                <td>일련번호</td>
-                <td>ID</td>
-                <td>아이디</td>
-                <td>비밀번호</td>
-                <td>이름</td>
-                <td>권한</td>
-                <td>가입일</td>
-                <td>단건조회</td>
-                <td>삭제</td>
-            </tr>
-        </thead>
-        <tbody>
-        <tr th:each="member, status : ${list}" align="center">
-            <td><span th:text="${status.count}"></span></td>
-            <td><span th:text="${member.id}"></span></td>
-            <td><span th:text="${member.userId}"></span></td>
-            <td><span th:text="${member.userPw}"></span></td>
-            <td><span th:text="${member.userName}"></span></td>
-            <td><span th:text="${member.userRole}"></span></td>
-            <td><span th:text="${member.joinDate}"></span></td>
+<h2>회원목록(총 ${ listcount }명)</h2>
+
+<table border="1">
+    <thead>
+    <tr align="center">
+        <td>일련번호</td>
+        <td>ID</td>
+        <td>아이디</td>
+        <td>비번</td>
+        <td>이름</td>
+        <td>권한</td>
+        <td>가입일</td>
+        <td>단건조회</td>
+        <td>삭제</td>
+    </tr>
+    </thead>
+    <tbody>
+    <c:forEach var="member" items="${ list }" varStatus="status">
+        <tr align="center">
+            <td><span>${status.count}</span></td>
+            <td><span>${member.id}</span></td>
+            <td><span>${member.userId}</span></td>
+            <td><span>${member.userPw}</span></td>
+            <td><span>${member.userName}</span></td>
+            <td><span>${member.userRole}</span></td>
+            <td><span>${member.joinDate}</span></td>
             <td>
-                <!-- http://localhost:8080/viewDTO?id=${member.id} -->
-                <button type="button" th:onclick="|location.href='@{viewMember(id=${member.id})}'|">단건조회</button>
+                <!-- location.href='/viewMember?id=1' -->
+                <button type="button"
+                        onclick="location.href='viewMember?id=${member.id}';">단건조회</button>
             </td>
             <td>
-                <!-- http://localhost:8080/deleteDTO?id=${member.id} -->
-                <button type="button" th:onclick="|location.href='@{deleteMember(id=${member.id})}'|">삭제</button>
+                <!-- location.href='/deleteMember?id=1' -->
+                <button type="button"
+                        onclick="location.href='deleteMember?id=${member.id}';">삭제</button>
             </td>
         </tr>
-        </tbody>
-    </table>
+    </c:forEach>
+    </tbody>
+</table>
 
-    <br>
-    <button type="button" onclick="location.href='joinForm'">회원가입</button>
+<br><br>
+<button type="button" onclick="location.href='/joinForm'">회원가입폼으로 이동</button>
+
 </body>
 </html>

@@ -26,6 +26,8 @@ public class MainController {
     public String list(Model model) {
         List<MemberEntity> list = memberRepository.findAll();
         model.addAttribute("list", list);
+        int listcount = list.size();
+        model.addAttribute("listcount", listcount);
 
         return "index";
     }
