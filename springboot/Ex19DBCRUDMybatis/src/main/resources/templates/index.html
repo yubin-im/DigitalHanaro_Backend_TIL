@@ -6,7 +6,7 @@
     <title>회원목록조회</title>
 </head>
 <body>
-    <h2 th:text="|회원목록 (총 ${list.size()}명)|">회원 목록</h2>
+    <h2 th:text="|회원목록 (총 ${listcount}명)|">회원 목록</h2>
     <table border="1">
         <thead>
             <tr align="center">
@@ -22,7 +22,7 @@
             </tr>
         </thead>
         <tbody>
-        <tr th:each="member, status : ${list}" align="center">
+        <tr th:each="member, status : ${member_list}" align="center">
             <td><span th:text="${status.count}"></span></td>
             <td><span th:text="${member.id}"></span></td>
             <td><span th:text="${member.userId}"></span></td>

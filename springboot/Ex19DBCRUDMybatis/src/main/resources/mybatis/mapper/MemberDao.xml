@@ -9,7 +9,29 @@
     <select id="list" resultType="com.study.ex15readdbcrud.dto.MemberDTO">
         SELECT * FROM member ORDER BY join_date DESC
     </select>
+    <select id="count" resultType="_int">
+        SELECT COUNT(*) FROM member
+    </select>
+    <select id="findById" resultType="com.study.ex15readdbcrud.dto.MemberDTO">
+        SELECT * FROM member WHERE id=#{param1}
+    </select>
 
-
+    <insert id="insert" parameterType="com.study.ex15readdbcrud.dto.MemberDTO">
+        INSERT INTO member values (0, #{userId}, #{userPw}, #{userName}, #{userRole}, #{joinDate})
+    </insert>
+<!--    <insert id="insertMap" parameterMap="map">-->
+<!--        INSERT INTO member values-->
+<!--            (0, #{userId}, #{userPw}, #{userName}, #{userRole}, #{joinDate})-->
+<!--    </insert>-->
+    
+    <update id="update" parameterType="com.study.ex15readdbcrud.dto.MemberDTO">
+        UPDATE member SET user_id=#{userId}, user_pw=#{userPw}, user_name=#{userName}, user_role=#{userRole}, join_date=#{joinDate} WHERE id=#{id}
+    </update>
+    <delete id="delete">
+        DELETE FROM member WHERE id=#{param1}
+    </delete>
+<!--    <delete id="deleteMap" parameterType="map">-->
+<!--        DELETE from member WHERE id=#{ id } and user_id=#{userId}-->
+<!--    </delete>-->
 
 </mapper>
