@@ -1,16 +1,18 @@
 package com.study.pr06vmapi;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
+@RequiredArgsConstructor
 @RestController
 public class ApiController {
-    private List<Product> productList = new ArrayList<>();
+    final ProductRepository repo;
 
     // 상품 전체 조회
     @PostMapping("/")
     public List<Product> main() {
-        return productList;
+        return repo.productList;
     }
 
     // 상품 추가
@@ -21,42 +23,25 @@ public class ApiController {
                 .price(addReqDTO.getPrice())
                 .limit_date(addReqDTO.getLimit_date())
                 .build();
-        productList.add(product);
+        repo.productList.add(product);
 
-        return productList;
+        System.out.println("상품리스트: " + repo.productList);
+        return repo.productList;
     }
 
     // 상품 수정
-    @PostMapping("/edit")
-    public List<Product> edit(@RequestBody ProductDTO productDTO) {
-        String name = productDTO.getName();
-        int price = productDTO.getPrice();
-        String limit_date = productDTO.getLimit_date();
+    @PostMapping("/edit-action")
+    public List<Product> updateProduct(@RequestBody ProductDTO productDTO) {
+        Product product = repo.productList.get(productDTO.getIndex());
 
-        for(Product product: productList) {
-            if(product.getName().equals(name)) {
-                product.setPrice(price);
-                product.setLimit_date(limit_date);
-                break;
-            }
-        }
-        return productList;
-    }
+        product.setName(productDTO.getName());
+        product.setPrice(productDTO.getPrice());
+        product.setLimit_date(productDTO.getLimit_date());
 
-    // 수정할 상품 불러오기
-    @GetMapping("/edit")
-    public ProductDTO viewEditForm(@RequestBody Map<String, String> nameMap) {
-        String name = nameMap.get("name");
-        ProductDTO productDTO = null;
+        repo.productList.set(productDTO.getIndex(), product);
 
-        for(Product product: productList) {
-            if(product.getName().equals(name)) {
-                productDTO = new ProductDTO(product.getName(), product.getPrice(), product.getLimit_date());
-                break;
-            }
-        }
-
-        return productDTO;
+        System.out.println("수정된 상품: " + repo.productList);
+        return repo.productList;
     }
 
     // 상품 삭제
@@ -64,7 +49,7 @@ public class ApiController {
     public List<Product> delete(@RequestBody Map<String, String> nameMap) {
         String name = nameMap.get("name");
 
-        Iterator<Product> iterator = productList.iterator();
+        Iterator<Product> iterator = repo.productList.iterator();
         while (iterator.hasNext()) {
             Product product = iterator.next();
             if (product.getName().equals(name)) {
@@ -73,7 +58,7 @@ public class ApiController {
             }
         }
 
-        return productList;
+        return repo.productList;
     }
 }
 

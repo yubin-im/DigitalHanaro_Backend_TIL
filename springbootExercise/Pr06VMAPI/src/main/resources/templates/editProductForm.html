@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -85,19 +85,19 @@
             <h2 class="title fw-bold">자판기 상품 수정</h2>
         </div>
 
-        <form action="/editProduct" method="post">
-            <!-- 인덱스 생성 -->
-            <input type="hidden" name="index" value="0" />
-            <!-- 상품명 -->
+        <form name="formUpdate" id="formUpdate">
             <div class="form-group">
+                <!-- 인덱스 생성 -->
+                <input type="hidden" id="index" name="index" th:value="${index}" />
+
+                <!-- 상품명 -->
                 <label for="inputName" class="text-white">상품명:</label>
                 <input
                         type="text"
                         class="form-control"
                         id="inputName"
                         name="inputName"
-                        value="베이컨버거"
-                        required
+                        th:value="${product.name}"
                 />
             </div>
 
@@ -109,8 +109,7 @@
                         class="form-control"
                         id="inputPrice"
                         name="inputPrice"
-                        value="10000"
-                        required
+                        th:value="${product.price}"
                 />
             </div>
 
@@ -122,17 +121,16 @@
                         class="form-control datepicker"
                         id="inputLimitDate"
                         name="inputLimitDate"
-                        value="2024-03-06"
-                        required
+                        th:value="${product.limit_date}"
                 />
             </div>
 
             <!-- 상품 추가 -->
             <div class="addButton">
                 <button
-                        type="submit"
+                        type="button"
                         class="btn btn-dark"
-                        onclick="productEdited()"
+                        onclick="updateProduct()"
                 >
                     상품 수정 완료!
                 </button>
@@ -157,8 +155,35 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.kr.min.js"></script>
 <script>
-    function productEdited() {
-        alert("상품을 수정하였습니다!");
+    const updateProduct = () => {
+        const index = document.getElementById("index").value;
+        const inputName = document.getElementById("inputName").value;
+        const inputPrice = document.getElementById("inputPrice").value;
+        const inputLimitDate = document.getElementById("inputLimitDate").value;
+
+        fetch("/edit-action", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                index: index,
+                name: inputName,
+                price: inputPrice,
+                limit_date: inputLimitDate
+            })
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert("상품을 수정하였습니다!")
+                    window.location.href = "/";
+                } else {
+                    console.error("상품 수정 실패");
+                }
+            })
+            .catch(error => {
+                console.error("오류 발생: ", error);
+            })
     }
 
     $(document).ready(function () {

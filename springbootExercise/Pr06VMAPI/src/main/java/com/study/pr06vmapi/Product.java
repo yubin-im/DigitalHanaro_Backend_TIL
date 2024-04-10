@@ -1,11 +1,12 @@
 package com.study.pr06vmapi;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.stereotype.Component;
 
-@Getter
-@Setter
+@Component
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Product {
     private String name; // 상품명

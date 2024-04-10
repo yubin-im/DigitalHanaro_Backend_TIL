@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -72,6 +72,15 @@
             .catch(error => console.error('Error:', error));
     }
 
+    const onEdit = (button) => {
+        var row = button.closest('tr');
+        var index = row.rowIndex - 1;
+        var newUrl = "/edit/" + index;
+
+        window.location.href = newUrl;
+        return false;
+    }
+
     // 상품 목록 렌더링 함수
     function renderProductList(products) {
         const productList = document.getElementById('productList');
@@ -100,12 +109,16 @@
                     </tr>
                     ${products.map((product, index) => `
                         <tr class="text-center align-middle">
-                            <td>${index + 1}</td>
+                            <td>${index+1}</td>
                             <td>${product.name}</td>
                             <td>${product.price}</td>
                             <td>${product.limit_date}</td>
                             <td>
-                                <button class="btn btn-primary fw-bold editBtn" onclick="editProduct('${product.name}', '${product.price}', '${product.limit_date}')">수정</button>
+                                <a th:href="@{/edit/{index}(index=${index})}"
+                                   class="btn btn-primary fw-bold editBtn"
+                                   role="button"
+                                   onclick="return onEdit(this)"
+                                   >수정</a>
                             </td>
                             <td>
                                 <button class="btn btn-danger fw-bold removeBtn" onclick="confirmAndDelete('${product.name}')">삭제</button>
@@ -138,25 +151,6 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
-    }
-
-    // 상품 수정 함수
-    function editProduct(name, price, limit_date) {
-        fetch("/edit", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                name: name,
-                price: price,
-                limit_date: limit_date
-            })
-        })
-            .then(response => response.json())
-            .then(data => {
-                // 여기서 수정하는 폼을 띄우도록 작성하십시오.
-                console.log(data); // 이 데이터를 이용하여 수정 폼을 작성합니다.
-            })
-            .catch(error => console.error('Error:', error));
     }
 
     // 언어 선택 토글
