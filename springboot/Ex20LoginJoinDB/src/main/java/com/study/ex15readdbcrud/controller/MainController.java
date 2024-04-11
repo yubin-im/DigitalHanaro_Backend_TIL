@@ -1,11 +1,15 @@
 package com.study.ex15readdbcrud.controller;
 
-import com.study.ex15readdbcrud.dto.MemberSaveDTO;
+import com.study.ex15readdbcrud.dto.MemberLoginDTO;
+import com.study.ex15readdbcrud.dto.MemberJoinDTO;
 import com.study.ex15readdbcrud.entity.MemberEntity;
 import com.study.ex15readdbcrud.repository.MemberRepository;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,15 +23,77 @@ public class MainController {
 
     @GetMapping("/")
     public String main() {
-        return "redirect:/list";
+        return "index";
     }
 
-    @RequestMapping("/list")
+    @GetMapping("/loginForm")
+    public String loginForm() {
+        return "loginForm";
+    }
+
+    @PostMapping("/loginAction")
+    @ResponseBody
+    public String loginAction(@Valid @ModelAttribute MemberLoginDTO dto,
+                              BindingResult bindingResult,
+                              HttpSession session){
+        if( bindingResult.hasErrors() ){
+            //바인딩 오류
+            //DTO에 설정한 message값을 가져온다.
+            String detail = bindingResult.getFieldError().getDefaultMessage();
+            //DTO에 유효성체크를 걸어놓은 어노테이션명을 가져온다.
+            String bindResultCode = bindingResult.getFieldError().getCode();
+            System.out.println( detail + ":" + bindResultCode);
+
+            return "<script>alert('" + detail +"'); history.back();</script>";
+        }
+        System.out.println(dto.getUserId());
+        System.out.println(dto.getUserPw());
+
+        //로그인 처리 로직
+        //1. 메시지 : "아이디가 없습니다"
+        //2.       : "암호가 맞지 않습니다."
+        Optional<MemberEntity> optional =
+                memberRepository.findByUserId(dto.getUserId());
+        if( !optional.isPresent() ){
+            return "<script>alert('아이디가 없습니다.'); history.back();</script>";
+        }
+        Optional<MemberEntity> optional2
+                = memberRepository.findByUserIdAndUserPw(dto.getUserId(), dto.getUserPw());
+        if( !optional2.isPresent() ){
+            return "<script>alert('암호가 맞지 않습니다.'); history.back();</script>";
+        }
+        //세션에 로그인 여부/로그인 아이디/로그인 권한 저장.
+        session.setAttribute("isLogin", true);
+        session.setAttribute("userId", optional2.get().getUserId());
+        session.setAttribute("userRole", optional2.get().getUserRole());
+
+        String userRole = optional2.get().getUserRole();
+        if(userRole.equals("ROLE_ADMIN") == true) {
+            return "<script>alert('관리자 로그인 성공'); location.href='/admin';</script>";
+        } else {
+            return "<script>alert('로그인 성공'); location.href='/';</script>";
+        }
+    }
+
+    @GetMapping("/logoutAction")
+    @ResponseBody
+    public String logoutAction(HttpSession session) {
+        // 로그아웃 액션
+        session.setAttribute("isLogin", null);
+        session.setAttribute("userId", null);
+        session.setAttribute("userRole", null);
+
+        session.invalidate();  // 세션 종료(JSESSIONID 종료), 모든 속성 제거
+
+        return "<script>alert('로그아웃되었습니다.'); location.href='/';</script>";
+    }
+
+    @GetMapping("/admin")
     public String list(Model model) {
         List<MemberEntity> list = memberRepository.findAll();
         model.addAttribute("list", list);
 
-        return "index";
+        return "admin";
     }
 
     @GetMapping("/joinForm")
@@ -37,7 +103,19 @@ public class MainController {
 
     @PostMapping("/joinAction")
     @ResponseBody
-    public String joinAction(@ModelAttribute MemberSaveDTO dto) {
+    public String joinAction(@Valid @ModelAttribute MemberJoinDTO dto,
+                             BindingResult bindingResult) {
+        if( bindingResult.hasErrors() ){
+            //바인딩 오류
+            //DTO에 설정한 message값을 가져온다.
+            String detail = bindingResult.getFieldError().getDefaultMessage();
+            //DTO에 유효성체크를 걸어놓은 어노테이션명을 가져온다.
+            String bindResultCode = bindingResult.getFieldError().getCode();
+            System.out.println( detail + ":" + bindResultCode);
+
+            return "<script>alert('" + detail +"'); history.back();</script>";
+        }
+
         System.out.println("name: " + dto.getUserName());
         try {
             MemberEntity memberEntity = dto.toSaveEntity();
@@ -48,7 +126,7 @@ public class MainController {
             return "<script>alert('회원가입 실패');history.back();</script>";
         }
 
-        return "<script>alert('회원가입 성공');location.href='/list';</script>";
+        return "<script>alert('회원가입 성공');location.href='/';</script>";
     }
 
     @GetMapping("/viewMember")
@@ -68,7 +146,7 @@ public class MainController {
 
     @PostMapping("/modifyAction")
     @ResponseBody
-    public String modifyAction(@ModelAttribute MemberSaveDTO dto){
+    public String modifyAction(@ModelAttribute MemberJoinDTO dto){
         try{
             MemberEntity memberEntity = dto.toUpdateEntity();
             memberRepository.save( memberEntity );

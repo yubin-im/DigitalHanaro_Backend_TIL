@@ -1,6 +1,6 @@
 package com.study.ex15readdbcrud.entity;
 
-import com.study.ex15readdbcrud.dto.MemberSaveDTO;
+import com.study.ex15readdbcrud.dto.MemberJoinDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,8 +32,8 @@ public class MemberEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate joinDate;
 
-    public MemberSaveDTO toSaveDTO() {
-        return MemberSaveDTO.builder()
+    public MemberJoinDTO toSaveDTO() {
+        return MemberJoinDTO.builder()
                 .id(id)
                 .userId(userId)
                 .userPw(userPw)
