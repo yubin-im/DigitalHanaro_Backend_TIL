@@ -1,5 +1,8 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page trimDirectiveWhitespaces="true" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -54,46 +57,52 @@
         <div class="list-container">
             <div class="list">
                 <!-- 상품 목록에 상품 존재 X -->
-                <div th:if="${productList.size() == 0}" class="row">
-                    <div class="col-sm-12 center">
-                        <p>상품 목록이 비어있습니다.</p>
+                <c:if test="${listCount == 0}">
+                    <div class="row">
+                        <div class="col-sm-12 center">
+                            <p>상품 목록이 비어있습니다.</p>
+                        </div>
                     </div>
-                </div>
+                </c:if>
 
                 <!-- 상품 목록에 상품 존재 O -->
-                <table th:if="${productList.size() > 0}" class="table table-bordered border-danger">
-                    <tr class="text-center">
-                        <th scope="col" id="listNum" class="text-danger">번호</th>
-                        <th scope="col" id="listName">상품명</th>
-                        <th scope="col" id="listPrice">가격</th>
-                        <th scope="col" id="listDate">유통기한</th>
-                        <th scope="col" id="editTitle">수정</th>
-                        <th scope="col" id="removeTitle">삭제</th>
-                    </tr>
-                    <tr th:each="product: ${productList}" class="text-center align-middle">
-                        <th th:text="${product.id+1}"></th>
-                        <td th:text="${product.name}" class="text-center align-middle"></td>
-                        <td th:text="${product.price}" class="text-center align-middle"></td>
-                        <td th:text="${product.limitDate}" class="text-center align-middle"></td>
-                        <td class="text-center align-middle">
-                            <a
-                                    th:href="@{/edit(id=${product.id})}"
-                                    class="btn btn-primary fw-bold editBtn"
-                                    role="button"
-                            >수정</a
-                            >
-                        </td>
-                        <td class="text-center align-middle">
-                            <a
-                                    th:href="@{/delete-action(id=${product.id})}"
-                                    class="btn btn-danger fw-bold removeBtn"
-                                    role="button"
-                                    onclick="return confirmAndNotify(this)"
-                            >삭제</a
-                            >
-                        </td>
-                    </tr>
-                </table>
+                <c:if test="${listCount > 0}">
+                    <table class="table table-bordered border-danger">
+                        <tr class="text-center">
+                            <th scope="col" id="listNum" class="text-danger">번호</th>
+                            <th scope="col" id="listName">상품명</th>
+                            <th scope="col" id="listPrice">가격</th>
+                            <th scope="col" id="listDate">유통기한</th>
+                            <th scope="col" id="editTitle">수정</th>
+                            <th scope="col" id="removeTitle">삭제</th>
+                        </tr>
+                        <c:forEach var="product" items="${productList}" varStatus="status">
+                        <tr class="text-center align-middle">
+                            <th><span>${product.id+1}</span></th>
+                            <td class="text-center align-middle"><span>${product.name}</span></td>
+                            <td class="text-center align-middle"><span>${product.price}</span></td>
+                            <td class="text-center align-middle"><span>${product.limitDate}</span></td>
+                            <td class="text-center align-middle">
+                                <a
+                                        href="/edit?id=${product.id}"
+                                        class="btn btn-primary fw-bold editBtn"
+                                        role="button"
+                                >수정</a
+                                >
+                            </td>
+                            <td class="text-center align-middle">
+                                <a
+                                        href="/delete-action?id=${product.id}"
+                                        class="btn btn-danger fw-bold removeBtn"
+                                        role="button"
+                                        onclick="return confirmAndNotify(this)"
+                                >삭제</a
+                                >
+                            </td>
+                        </tr>
+                        </c:forEach>
+                    </table>
+                </c:if>
             </div>
         </div>
         <!-- 총 상품 갯수 -->
@@ -102,7 +111,7 @@
                 class="listSizeBox bg-white rounded-start text-danger fw-bold"
         >
             <span id="total">▲ 총</span>
-            <span th:text="${productList.size()}" class="text-dark"></span>
+            <span class="text-dark">${listCount}</span>
             <span id="totalNum">개의 상품이 있습니다.</span>
         </div>
         <!-- 상품 추가하기 버튼 -->
@@ -191,3 +200,5 @@
 </script>
 </body>
 </html>
+
+

@@ -18,6 +18,7 @@ public class MainController {
     @GetMapping("/")
     public String main(Model model) {
         model.addAttribute("productList", productList);
+        model.addAttribute("listCount", productList.size());
 
         return "productList";
     }
