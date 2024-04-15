@@ -71,7 +71,7 @@
                         <th scope="col" id="removeTitle">삭제</th>
                     </tr>
                     <tr th:each="product: ${productList}" class="text-center align-middle">
-                        <th th:text="${product.id}"></th>
+                        <th th:text="${product.id+1}"></th>
                         <td th:text="${product.name}" class="text-center align-middle"></td>
                         <td th:text="${product.price}" class="text-center align-middle"></td>
                         <td th:text="${product.limitDate}" class="text-center align-middle"></td>

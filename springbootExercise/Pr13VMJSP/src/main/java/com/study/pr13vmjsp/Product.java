@@ -17,5 +17,12 @@ public class Product {
     private String name; // 상품명
     private int price; // 가격
     private LocalDate limitDate; // 유통기한
-    private int id;
+    private int id; // 번호
+
+    // 상품 수정
+    public void updateProduct(String name, int price, LocalDate limitDate) {
+        this.name = name;
+        this.price = price;
+        this.limitDate = limitDate;
+    }
 }
