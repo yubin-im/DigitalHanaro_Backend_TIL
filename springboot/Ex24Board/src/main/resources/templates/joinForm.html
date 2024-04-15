@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입 화면</title>
+    <script>
+        const checkValue = () => {
+            if(!document.userInfo.userId.value) {  // null 체크
+                alert("아이디를 입력하세요!");
+                document.getElementById("userId").focus();
+                return false;
+            }
+            if(!document.userInfo.userPw.value) {  // null 체크
+                alert("비밀번호를 입력하세요!");
+                document.getElementById("userPw").focus();
+                return false;
+            }
+            if(!document.userInfo.userName.value) {  // null 체크
+                alert("이름을 입력하세요!");
+                document.getElementById("userName").focus();
+                return false;
+            }
+            return true;  // form 태그의 submit 통신이 이루어진다.
+        }
+    </script>
+</head>
+<body>
+    <h2>회원가입 화면</h2>
+    <form action="/joinAction" method="post" name="userInfo" onsubmit="return checkValue();">
+        <table border="1">
+            <tr>
+                <td>아이디</td>
+                <td>
+                    <input type="text" name="userId" id="userId" maxlength="20" />
+                </td>
+            </tr>
+            <tr>
+                <td>비밀번호</td>
+                <td>
+                    <input type="text" name="userPw" id="userPw" maxlength="20" />
+                </td>
+            </tr>
+            <tr>
+                <td>이름</td>
+                <td>
+                    <input type="text" name="userName" id="userName" maxlength="50" />
+                </td>
+            </tr>
+            <tr>
+                <td>가입일자</td>
+                <td>
+                    <input type="date" name="joinDate" id="joinDate"/>
+                </td>
+            </tr>
+            <tr>
+                <td>권한</td>
+                <td>
+                    <label id="userRole" for="userRole">권한을 선택해주세요.</label>
+                    <select name="userRole" >
+                        <option value="ROLE_USER" selected>일반회원</option>
+                        <option value="ROLE_ADMIN">관리자</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>주소</td>
+                <td>
+                    <input type="text" name="userAddress" id="userAddress" maxlength="100"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <button type="submit">회원가입</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
