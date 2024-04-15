@@ -17,5 +17,11 @@ public class ProductViewController {
     public String viewAddForm() {
         return "addProductForm";
     }
+
+    // 상품 수정 폼 출력
+    @GetMapping("edit")
+    public String viewEditForm() {
+        return "editProductForm";
+    }
 }
 
