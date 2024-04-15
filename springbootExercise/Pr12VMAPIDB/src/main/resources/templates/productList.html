@@ -110,7 +110,7 @@
                                    role="button">수정</a>
                             </td>
                             <td>
-                                <button class="btn btn-danger fw-bold removeBtn" onclick="confirmAndDelete('${product.name}')">삭제</button>
+                                <button class="btn btn-danger fw-bold removeBtn" onclick="confirmAndDelete(${product.id})">삭제</button>
                             </td>
                         </tr>
                     `).join('')}
@@ -123,15 +123,15 @@
     }
 
     // 상품 삭제 함수
-    function confirmAndDelete(name) {
+    function confirmAndDelete(id) {
         var confirmation = confirm("정말로 삭제하시겠습니까?");
         if (confirmation) {
             fetch("/delete", {
-                method: 'DELETE',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ name: name })
+                body: JSON.stringify({ id: id })
             })
                 .then(response => response.json())
                 .then(data => {

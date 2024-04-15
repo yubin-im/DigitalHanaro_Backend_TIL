@@ -88,7 +88,7 @@
         <form name="formUpdate" id="formUpdate">
             <div class="form-group">
                 <!-- 인덱스 생성 -->
-                <input type="hidden" id="index" name="index" th:value="${index}" />
+                <input type="hidden" id="id" name="id" th:value="${product.id}" />
 
                 <!-- 상품명 -->
                 <label for="inputName" class="text-white">상품명:</label>
@@ -156,7 +156,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.kr.min.js"></script>
 <script>
     const updateProduct = () => {
-        const index = document.getElementById("index").value;
+        const id = document.getElementById("id").value;
         const inputName = document.getElementById("inputName").value;
         const inputPrice = document.getElementById("inputPrice").value;
         const inputLimitDate = document.getElementById("inputLimitDate").value;
@@ -167,7 +167,7 @@
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                index: index,
+                id: id,
                 name: inputName,
                 price: inputPrice,
                 limitDate: inputLimitDate
