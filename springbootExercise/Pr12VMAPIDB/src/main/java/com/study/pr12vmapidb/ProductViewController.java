@@ -19,7 +19,7 @@ public class ProductViewController {
     }
 
     // 상품 수정 폼 출력
-    @GetMapping("edit")
+    @GetMapping("/edit")
     public String viewEditForm() {
         return "editProductForm";
     }
