@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>자판기 프로그램</title>
+
+    <!-- 스타일시트 연결하기 -->
+    <link href="./index4.css" rel="stylesheet" type="text/css" />
+
+    <!-- 부트스트랩 CDN 링크 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
+</head>
+<body style="background-color: black">
+<div class="wrap">
+    <div class="container">
+        <!-- 타이틀 -->
+        <div class="title-box rounded-top">
+            <h2 id="VMTitle" class="title">★자판기 프로그램★</h2>
+        </div>
+        <!-- 상단메뉴 -->
+        <div class="d-flex flex-wrap align-items-center justify-content-between">
+            <div class="listTextBox bg-white rounded-end text-danger fw-bold">
+                <span id="listTitle" class="listText fw-bold text-danger">▽ 자판기 상품 목록</span>
+            </div>
+            <!-- 언어 선택 -->
+            <fieldset>
+                <label class="toggleLabel">
+                    <span class="toggleFont">한글</span>
+                    <input role="switch" type="checkbox" id="changeToEng" class="languageToggle" />
+                    <span class="toggleFont">ENG</span>
+                </label>
+            </fieldset>
+            <!-- 코인 모양 -->
+            <div class="coinSlot rounded-pill">
+                <div class="coin"></div>
+            </div>
+        </div>
+        <!-- 상품 목록 -->
+        <div class="list-container">
+            <div id="productList" class="list"></div>
+        </div>
+        <!-- 총 상품 갯수 -->
+        <div style="margin-bottom: 10px" class="listSizeBox bg-white rounded-start text-danger fw-bold">
+            <span id="total">▲ 총</span>
+            <span id="productCount" class="text-dark">0</span>
+            <span id="totalNum">개의 상품이 있습니다.</span>
+        </div>
+        <!-- 상품 추가하기 버튼 -->
+        <div style="clear: both" class="d-flex justify-content-center">
+            <a id="addProductButton" href="/add" class="btn btn-danger fw-bold w-25" role="button">상품 추가하기 !</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 페이지 로드 시 초기 데이터 로드
+    window.onload = function() {
+        loadData();
+    };
+
+    // 데이터 로드 함수
+    function loadData() {
+        fetch("/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" }
+        })
+            .then(response => response.json())
+            .then(data => {
+                renderProductList(data);
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // 상품 목록 렌더링 함수
+    function renderProductList(products) {
+        const productList = document.getElementById('productList');
+        productList.innerHTML = '';
+
+        if (products.length === 0) {
+            productList.innerHTML = `
+                <div class="row">
+                    <table class="table table-bordered border-danger">
+                        <tr class="text-center">
+                            <th scope="col">상품 목록이 비어있습니다.</th>
+                        </tr>
+                    </table>
+                </div>
+            `;
+        } else {
+            productList.innerHTML = `
+                <table class="table table-bordered border-danger">
+                    <tr class="text-center">
+                        <th scope="col" id="listNum" class="text-danger">번호</th>
+                        <th scope="col" id="listName">상품명</th>
+                        <th scope="col" id="listPrice">가격</th>
+                        <th scope="col" id="listDate">유통기한</th>
+                        <th scope="col" id="editTitle">수정</th>
+                        <th scope="col" id="removeTitle">삭제</th>
+                    </tr>
+                    ${products.map((product) => `
+                        <tr class="text-center align-middle">
+                            <td>${product.id}</td>
+                            <td>${product.name}</td>
+                            <td>${product.price}</td>
+                            <td>${product.limitDate}</td>
+                            <td>
+                                <a href="/edit?id=${product.id}"
+                                   class="btn btn-primary fw-bold editBtn"
+                                   role="button">수정</a>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger fw-bold removeBtn" onclick="confirmAndDelete('${product.name}')">삭제</button>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </table>
+            `;
+        }
+
+        // 총 상품 갯수 업데이트
+        document.getElementById('productCount').textContent = products.length;
+    }
+
+    // 상품 삭제 함수
+    function confirmAndDelete(name) {
+        var confirmation = confirm("정말로 삭제하시겠습니까?");
+        if (confirmation) {
+            fetch("/delete", {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: name })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    renderProductList(data);
+                    alert("삭제하였습니다!");
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    }
+
+    // 언어 선택 토글
+    const VMTitle = document.getElementById("VMTitle");
+    const languageToggle = document.getElementById("changeToEng");
+    const addProductButton = document.getElementById("addProductButton");
+    const total = document.getElementById("total");
+    const totalNum = document.getElementById("totalNum");
+
+    // 토글 스위치가 변경될 때 버튼 텍스트 변경
+    languageToggle.addEventListener("change", function () {
+        if (this.checked) {
+            // 토글 켬
+            VMTitle.textContent = "★ VENDING MACHINE";
+            total.textContent = "▲ total (";
+            totalNum.textContent = " item)";
+        } else {
+            // 토글 끔
+            VMTitle.textContent = "★ 자판기 프로그램";
+            total.textContent = "▲ 총";
+            totalNum.textContent = "개의 상품이 있습니다. |";
+        }
+    });
+</script>
+</body>
+</html>
