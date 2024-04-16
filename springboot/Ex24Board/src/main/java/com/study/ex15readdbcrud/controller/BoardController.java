@@ -60,7 +60,7 @@ public class BoardController {
 
         //게시글 정보 조회
         BoardResponseDto dto = boardService.findById( boardIdx );
-        dto.setBoardHit(dto.getBoardHit() + 1);
+        dto.setBoardHit(dto.getBoardHit());
         model.addAttribute("dto", dto);
 
         //조회수 증가
