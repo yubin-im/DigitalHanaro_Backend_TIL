@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ReplyService {
@@ -24,4 +26,19 @@ public class ReplyService {
         return isFound;
     }
 
+    @Transactional
+    public List<Reply> findAllByReplyBoardIdx(Long replyBoradIdx) {
+        List<Reply> replyList = replyRepository.findAllByReplyBoardIdx(replyBoradIdx);
+        return replyList;
+    }
+
+    @Transactional
+    public void delete(Long replyIdx) {
+        replyRepository.deleteById(replyIdx);
+    }
+
+    @Transactional
+    public void deleteReply(Long replyIdx) {
+        replyRepository.deleteById(replyIdx);
+    }
 }

@@ -1,9 +1,11 @@
 package com.study.ex15readdbcrud.controller;
 
 import com.study.ex15readdbcrud.domain.board.Board;
+import com.study.ex15readdbcrud.domain.reply.Reply;
 import com.study.ex15readdbcrud.dto.BoardResponseDto;
 import com.study.ex15readdbcrud.dto.BoardSaveRequestDto;
 import com.study.ex15readdbcrud.service.BoardService;
+import com.study.ex15readdbcrud.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BoardController {
     private final BoardService boardService;
+    private final ReplyService replyService;
 
     // localhost:8080/board/
     @GetMapping("/")
@@ -66,6 +69,10 @@ public class BoardController {
         //조회수 증가
         boardService.updateHit(boardIdx, dto.getBoardHit() + 1);
 
+        // 댓글 전체 조회
+        List<Reply> replyList = replyService.findAllByReplyBoardIdx(dto.getBoardIdx());
+        model.addAttribute("replyList", replyList);
+
         return "contentForm"; //contentForm.html로 응답
     }
     @PostMapping("/updateAction")
@@ -81,5 +88,12 @@ public class BoardController {
             //업데이트 실패
             return "<script>alert('글수정 실패'); history.back();</script>";
         }
+    }
+
+    @GetMapping("/deleteAction")
+    @ResponseBody
+    public String deleteBoard(@RequestParam Long boardIdx) {
+        boardService.delete(boardIdx);
+        return "<script>alert('글 삭제 성공'); location.href='/board/listForm';</script>";
     }
 }

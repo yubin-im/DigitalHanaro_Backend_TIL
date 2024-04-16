@@ -11,4 +11,5 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
     //쿼리 메소드
     //게시글 인덱스로 댓글 목록 찾기
     List<Reply> findAllByReplyBoardIdx(Long replyBoradIdx);
+    void deleteById(Long replyIdx);
 }

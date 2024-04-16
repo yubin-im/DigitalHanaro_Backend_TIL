@@ -1,10 +1,7 @@
 package com.study.ex15readdbcrud.domain.board;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +15,8 @@ import java.time.LocalDateTime;
 @Getter
 // new Board() 작성이 불가하여, 객체의 일관성 유지에 좋다.
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,4 +56,8 @@ public class Board {
         this.boardHit = boardHit;
     }
 
+    @PrePersist
+    public void prePersist() {
+        this.boardDate = LocalDateTime.now(); // 저장 전에 현재 시간으로 갱신
+    }
 }

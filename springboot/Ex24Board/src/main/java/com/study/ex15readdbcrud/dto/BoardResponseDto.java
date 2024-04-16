@@ -1,6 +1,7 @@
 package com.study.ex15readdbcrud.dto;
 
 import com.study.ex15readdbcrud.domain.board.Board;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

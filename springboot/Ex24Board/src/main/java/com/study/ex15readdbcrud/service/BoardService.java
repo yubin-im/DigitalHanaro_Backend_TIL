@@ -91,4 +91,11 @@ public class BoardService {
         //예전의 방식) Board newEntity = boardRepository.save( entity );
         return entity;
     }
+
+    @Transactional
+    public void delete(Long boardIdx) {
+        Board board = boardRepository.findById(boardIdx).orElse(null);
+        boardRepository.delete(board);
+    }
+
 }

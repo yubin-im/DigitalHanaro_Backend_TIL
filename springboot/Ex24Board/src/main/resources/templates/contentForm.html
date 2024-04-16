@@ -56,7 +56,7 @@
                 <a href="listForm">
                     <input type="button" value="목록보기">
                 </a>&nbsp;&nbsp;
-                <a href="deleteAction?boardIdx=${ dto.boardIdx }">
+                <a th:href="@{/board/deleteAction(boardIdx=${dto.boardIdx})}">
                     <input type="button" value="삭제하기"></a>
                 </a>
             </td>
@@ -84,6 +84,28 @@
 </form>
 
 <!-- 댓글 목록 -->
+<div>
+    <table cellpadding="0" cellspacing="0">
+        <tr>
+            <th>별명</th>
+            <th>내용</th>
+            <th>날짜</th>
+            <th>삭제</th>
+        </tr>
+        <!-- 댓글 반복문 -->
+        <tr th:each="reply : ${replyList}">
+            <td th:text="${reply.replyName}">별명</td>
+            <td th:text="${reply.replyContent}">내용</td>
+            <td th:text="${reply.replyDate}">날짜</td>
+            <td>
+                <form th:action="@{/reply/deleteReplyAction(replyIdx=${reply.replyIdx})}" method="get">
+                    <input type="hidden" name="replyIdx" th:value="${reply.replyIdx}" />
+                    <button type="submit">삭제</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
 
 </body>
 </html>
