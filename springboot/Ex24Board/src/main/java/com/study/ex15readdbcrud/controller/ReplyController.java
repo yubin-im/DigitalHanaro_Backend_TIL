@@ -21,7 +21,7 @@ public class ReplyController {
 
         boolean isFound = replyService.existsById( newReplyIdx );
         if( isFound == true ){
-            return "<script>alert('댓글쓰기 성공'); location.href='/board/listForm';</script>";
+            return "<script>alert('댓글쓰기 성공'); location.href='/board/contentForm?boardIdx="+ replyBoardIdx +"';</script>";
         }else{
             return "<script>alert('댓글쓰기 실패'); history.back();</script>";
         }
@@ -29,8 +29,9 @@ public class ReplyController {
 
     @GetMapping("/deleteReplyAction")
     @ResponseBody
-    public String deleteReply(@RequestParam Long replyIdx) {
+    public String deleteReply(@RequestParam Long boardIdx, @RequestParam Long replyIdx) {
         replyService.deleteReply(replyIdx);
-        return "<script>alert('댓글 삭제 성공'); location.href='/board/listForm';</script>";
+
+        return "<script>alert('댓글 삭제 성공'); location.href='/board/contentForm?boardIdx="+ boardIdx +"';</script>";
     }
 }

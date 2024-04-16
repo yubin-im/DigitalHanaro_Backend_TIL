@@ -98,7 +98,8 @@
             <td th:text="${reply.replyContent}">내용</td>
             <td th:text="${reply.replyDate}">날짜</td>
             <td>
-                <form th:action="@{/reply/deleteReplyAction(replyIdx=${reply.replyIdx})}" method="get">
+                <form th:action="@{/reply/deleteReplyAction(boardIdx=${dto.boardIdx}, replyIdx=${reply.replyIdx})}" method="get">
+                    <input type="hidden" name="boardIdx" th:value="${dto.boardIdx}" />
                     <input type="hidden" name="replyIdx" th:value="${reply.replyIdx}" />
                     <button type="submit">삭제</button>
                 </form>
