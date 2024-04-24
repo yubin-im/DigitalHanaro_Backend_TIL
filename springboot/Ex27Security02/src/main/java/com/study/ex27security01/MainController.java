@@ -7,9 +7,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class MainController {
     @GetMapping("/")
-    @ResponseBody
     public String main() {
-        return "스프링 시큐리티 웹입니다.";
+        return "index";
     }
 
     @GetMapping("/login")
