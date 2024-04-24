@@ -1,4 +1,4 @@
-package com.study.ex27security01;
+package com.study.ex27security01.enumeration;
 
 import lombok.Getter;
 

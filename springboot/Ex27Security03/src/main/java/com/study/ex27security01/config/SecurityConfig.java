@@ -1,4 +1,4 @@
-package com.study.ex27security01;
+package com.study.ex27security01.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +31,10 @@ public class SecurityConfig {
                 // HTTP 요청에 대한 보안설정을 시작
                 .authorizeHttpRequests( (auth) -> auth
                         // 루트 밑의 모든 경로에 대한 모든 요청을 허가
-                        .requestMatchers( new AntPathRequestMatcher("/**") ).permitAll()
+                        .requestMatchers( new AntPathRequestMatcher("/"),
+                                new AntPathRequestMatcher("/joinForm"),
+                                new AntPathRequestMatcher(("/joinAction"))
+                        ).permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/my/**").hasAnyRole("ADMIN", "USER")
                         .anyRequest().authenticated())  // 그 외 어떤 요청에도 인증한다.
