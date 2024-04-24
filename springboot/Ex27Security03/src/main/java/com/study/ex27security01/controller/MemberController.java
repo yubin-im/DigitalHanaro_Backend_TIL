@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class MemberController {
@@ -73,5 +75,14 @@ public class MemberController {
         }
     }
 
+    @GetMapping("/admin")
+    public String admin(Model model) {
+        long listCount = memberRepository.count();
+        model.addAttribute("listCount", listCount);
 
+        List<MemberEntity> list = memberRepository.findAll();
+        model.addAttribute("list", list);
+
+        return "admin";
+    }
 }
